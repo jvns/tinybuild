@@ -27,7 +27,7 @@ if [ -z "${dockerfile}" ]; then
     dockerfile="Dockerfile"
 fi
 
-set -ux
+set -u
 
 # make sure volume doesn't exist
 if [ -d "$localdir" ]; then
