@@ -47,6 +47,9 @@ CONTAINER_ID=$(docker run -v "$PWD":/src -v "$localdir:/artifact:z" -d -t "$IMAG
 # more permission nonsense, so that the git clone on the next line works
 docker exec "$CONTAINER_ID" bash -c "chmod 777 /"
 # set uid to 1000 to avoid permission issues, this is just hardcoded to my uid
+# --depth 1 is ignored in local clones, it looks like this is because it makes
+# hard links of the object directory instead of making copies.
+# So --depth 1 doesn't work here even though it seems like it might be a good idea.
 if ! docker exec --user 1000:1000 "$CONTAINER_ID" bash -c "git clone /src /build && cd /build && bash /src/$script"
 then
     echo "Build failed"
